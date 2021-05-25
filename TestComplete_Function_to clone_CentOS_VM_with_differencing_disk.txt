@@ -1,0 +1,12 @@
+ function createCentOS(){
+  
+  WshShell.Run("powershell -command Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell");
+  WshShell.Run("powershell -command New-VHD -ParentPath: D:\\Hyper-V\\VHD\\centos.vhdx -Path D:\\Hyper-V\\VHD\\" + Project.Variables.centosVM + ".vhdx -Differencing");
+  aqUtils.Delay(3000);
+  WshShell.Run("powershell -command New-VM -Name " + Project.Variables.centosVM + " -Generation 2 -MemoryStartupBytes 2GB -VHDPath D:\\Hyper-V\\VHD\\" + Project.Variables.centosVM + ".vhdx -SwitchName Internal");
+  aqUtils.Delay(5000);
+  WshShell.Run("powershell -command Set-VMFirmware -VMName " + Project.Variables.centosVM + " -EnableSecureBoot Off");
+    aqUtils.Delay(3000);
+  WshShell.Run("powershell -command Start-VM " + Project.Variables.centosVM);
+  aqUtils.Delay(8000);
+}
